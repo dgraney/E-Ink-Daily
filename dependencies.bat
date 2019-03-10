@@ -1,1 +1,2 @@
-pip3 install --user requests
+pip install --user requests
+pip install --user json
