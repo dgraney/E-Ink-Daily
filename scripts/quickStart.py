@@ -30,7 +30,7 @@ def main():
             creds = flow.run_local_server()
         # Save the credentials for the next run
         with open('token.pickle', 'wb') as token:
-            pickle.dump(creds, token)
+            pickle.dump(creds, token,protocol=2)
 
     service = build('calendar', 'v3', credentials=creds)
 
@@ -44,9 +44,12 @@ def main():
 
     if not events:
         print('No upcoming events found.')
+    eventsList = []
     for event in events:
         start = event['start'].get('dateTime', event['start'].get('date'))
+        eventsList.append((start,event['summary']))
         print(start, event['summary'])
+    return eventsList
 
 if __name__ == '__main__':
     main()
