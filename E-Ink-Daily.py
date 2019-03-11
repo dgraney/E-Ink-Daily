@@ -27,9 +27,11 @@ class ProjectDaily():
             epd.Clear(0xFF)
 
             print("Drawing")
-            Limage = Image.new("1",(epd7in5.EPD_HEIGHT , epd7in5.EPD_WIDTH),255)
+            W = epd7in5.EPD_WIDTH
+            H = epd7in5.EPD_HEIGHT
+            Limage = Image.new("1",( H,W ),255)
             draw = ImageDraw.Draw(Limage)
-            font72 = ImageFont.truetype('/usr/share/fonts/truetype/wqy/wqy-microhei.ttc', 72)
+            font65 = ImageFont.truetype('/usr/share/fonts/truetype/wqy/wqy-microhei.ttc', 65)
             font48 = ImageFont.truetype('/usr/share/fonts/truetype/wqy/wqy-microhei.ttc', 48)
             font36 = ImageFont.truetype('/usr/share/fonts/truetype/wqy/wqy-microhei.ttc', 36)
             font24 = ImageFont.truetype('/usr/share/fonts/truetype/wqy/wqy-microhei.ttc', 24)
@@ -38,8 +40,10 @@ class ProjectDaily():
             ts = int(todayWeatherData.TimeStamp)
             weekDay = datetime.date.fromtimestamp(ts).strftime('%A')
             date = datetime.date.fromtimestamp(ts).strftime('%m/%d/%Y')
-            draw.text((2,0),weekDay,font = font72,fill = 0)
-            draw.text((2,80),date,font = font48,fill = 0)
+            w,h = draw.textsize(weekDay,font65)
+            weekDayCtr = ((H-w)/2,(W-h)/2)
+            draw.text(weekDayCtr,weekDay,font = font65,fill = 0)
+            draw.text((2,75),date,font = font48,fill = 0)
             epd.display(epd.getbuffer(Limage))
             time.sleep(2)
         except:
