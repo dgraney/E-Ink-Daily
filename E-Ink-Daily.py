@@ -41,7 +41,7 @@ class ProjectDaily():
             weekDay = datetime.date.fromtimestamp(ts).strftime('%A')
             date = datetime.date.fromtimestamp(ts).strftime('%m/%d/%Y')
             w,h = draw.textsize(weekDay,font65)
-            weekDayCtr = ((H-w)/2,(W-h)/2)
+            weekDayCtr = ((H-w)/2,0)
             draw.text(weekDayCtr,weekDay,font = font65,fill = 0)
             draw.text((2,75),date,font = font48,fill = 0)
             epd.display(epd.getbuffer(Limage))
