@@ -46,6 +46,7 @@ class ProjectDaily():
             draw.text((2,75),date,font = font48,fill = 0)
             epd.display(epd.getbuffer(Limage))
             time.sleep(2)
+            epd.sleep()
         except:
             print('traceback.format_exc():\n%s' % traceback.format_exc())
             exit()
