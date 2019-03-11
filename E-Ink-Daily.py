@@ -1,8 +1,11 @@
-import scripts.quickStart as calendar
-import scripts.dailyVerse as dailyVerse
-import scripts.weather as weather
+import sys
+sys.path.insert(0, './scripts')
+sys.path.insert(0, './epaper')
+import quickStart as calendar
+import dailyVerse as dailyVerse
+import weather as weather
 
-import epaper.epd7in5 as epd7in5
+import epd7in5 as epd7in5
 import time
 from PIL import Image,ImageDraw,ImageFont
 import traceback
@@ -38,5 +41,5 @@ class projectDaily():
             epd.display(epd.getbuffer(Limage))
             time.sleep(2)
         except:
-            print 'traceback.format_exc():\n%s' % traceback.format_exc()
+            print('traceback.format_exc():\n%s' % traceback.format_exc())
             exit()
