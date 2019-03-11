@@ -1,7 +1,7 @@
 import sys
 sys.path.insert(0, './scripts')
 sys.path.insert(0, './epaper')
-import quickStart as calendar
+#import quickStart as calendar
 import dailyVerse as dailyVerse
 import weather as weather
 
@@ -15,7 +15,7 @@ class projectDaily():
     def __init__ (self):
         self.dailyBibleVerse = dailyVerse.getDailyVerse()
         self.weatherData = weather.main()
-        self.calendarEvents = calendar.main()
+        #self.calendarEvents = calendar.main()
 
         self.drawData()
 
