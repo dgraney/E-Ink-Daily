@@ -28,7 +28,7 @@ def getLatLong():
     return lat,lon
 
 def getWeatherByLatLong(darkApiKey,lat,lon):
-    URL  = 'https://api.darksky.net/forecast/%s/%s,%s' % (key,lat,lon)
+    URL  = 'https://api.darksky.net/forecast/%s/%s,%s' % (darkApiKey,lat,lon)
     r = requests.get(url=URL)
     data = r.json()
     return data
