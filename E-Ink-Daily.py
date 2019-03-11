@@ -40,10 +40,14 @@ class ProjectDaily():
             ts = int(todayWeatherData.TimeStamp)
             weekDay = datetime.date.fromtimestamp(ts).strftime('%A')
             date = datetime.date.fromtimestamp(ts).strftime('%m/%d/%Y')
+
             w,h = draw.textsize(weekDay,font65)
             weekDayCtr = ((H-w)/2,0)
             draw.text(weekDayCtr,weekDay,font = font65,fill = 0)
-            draw.text((2,75),date,font = font48,fill = 0)
+            
+            w,h = draw.textsize(date,font48)
+            dateCtr = (((H-w)/2,75))
+            draw.text(dateCtr,date,font = font48,fill = 0)
             epd.display(epd.getbuffer(Limage))
             time.sleep(2)
             epd.sleep()
