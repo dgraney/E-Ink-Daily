@@ -39,7 +39,7 @@ class ProjectDaily():
             weekDay = datetime.date.fromtimestamp(ts).strftime('%A')
             date = datetime.date.fromtimestamp(ts).strftime('%m/%d/%Y')
             draw.text((2,0),weekDay,font = font72,fill = 0)
-            draw.text((80,0),date,font = font48,fill = 0)
+            draw.text((2,80),date,font = font48,fill = 0)
             epd.display(epd.getbuffer(Limage))
             time.sleep(2)
         except:
