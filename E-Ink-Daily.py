@@ -11,13 +11,13 @@ from PIL import Image,ImageDraw,ImageFont
 import traceback
 import datetime
 
-class projectDaily():
+class ProjectDaily():
     def __init__ (self):
         self.dailyBibleVerse = dailyVerse.getDailyVerse()
         self.weatherData = weather.main()
         #self.calendarEvents = calendar.main()
 
-        self.drawData()
+        #self.drawData()
 
     def drawData(self):
         try:
@@ -43,3 +43,7 @@ class projectDaily():
         except:
             print('traceback.format_exc():\n%s' % traceback.format_exc())
             exit()
+
+if __name__ == "__main__":
+    projDaily = ProjectDaily()
+    projDaily.drawData()
