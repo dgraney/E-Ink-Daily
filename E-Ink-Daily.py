@@ -33,11 +33,11 @@ class ProjectDaily():
             font24 = ImageFont.truetype('/usr/share/fonts/truetype/wqy/wqy-microhei.ttc', 24)
             font18 = ImageFont.truetype('/usr/share/fonts/truetype/wqy/wqy-microhei.ttc', 18)
             todayWeatherData = self.weatherData.dailyWeather[0]
-            ts = int(daily.TimeStamp)
+            ts = int(todayWeatherData.TimeStamp)
             weekDay = datetime.date.fromtimestamp(ts).strftime('%a')
             date = datetime.date.fromtimestamp(ts).strftime('%m/%d/%Y')
             draw.text((2,0),weekDay,font = font36,fill = 0)
-            draw.text((2,0),weekDay,font = font24,fill = 0)
+            draw.text((2,0),date,font = font24,fill = 0)
             epd.display(epd.getbuffer(Limage))
             time.sleep(2)
         except:
