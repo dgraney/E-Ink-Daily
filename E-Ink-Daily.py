@@ -69,6 +69,8 @@ class ProjectDaily():
             self.drawCenteredText(draw,todayIconString,weather_icons,140)
             self.drawCenteredText(draw,todayHighLowWeather,font24,175)
 
+            draw.line([(2,250),(self.H-2,250)],fill=(0,0,0),width=3)
+
             epd.display(epd.getbuffer(Limage))
             time.sleep(2)
             epd.sleep()
