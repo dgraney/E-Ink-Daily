@@ -61,7 +61,7 @@ class ProjectDaily():
             date = datetime.date.fromtimestamp(ts).strftime('%m/%d/%Y')
             todayIconAsText = todayWeatherData.Icon
             todayIconString = self.iconDict[todayIconAsText]
-            todayHighLowWeather = todayWeatherData.HighTemp + " / " + todayWeatherData.LowTemp
+            todayHighLowWeather = str(todayWeatherData.HighTemp) + " / " + str(todayWeatherData.LowTemp)
 
 
             self.drawCenteredText(draw,weekDay,font65,0)
