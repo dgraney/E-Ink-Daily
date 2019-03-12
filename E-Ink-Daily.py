@@ -16,7 +16,29 @@ class ProjectDaily():
         self.dailyBibleVerse = dailyVerse.getDailyVerse()
         self.weatherData = weather.main()
         #self.calendarEvents = calendar.main()
+        
+        self.iconDict = {
+            "clear-day": "B",
+            "clear-night": "C",
+            "rain": "R",
+            "snow": "U",
+            "sleet": "W",
+            "wind": "S",
+            "fog": "L",
+            "cloudy": "N",
+            "partly-cloudy-day": "H",
+            "partly-cloudy-night": "I",
+            "thunderstorm":"O" ,
+            "hail": "X",
+        }
 
+        
+        global font65; font65= ImageFont.truetype('/usr/share/fonts/truetype/wqy/wqy-microhei.ttc', 65)
+        global font48; font48 = ImageFont.truetype('/usr/share/fonts/truetype/wqy/wqy-microhei.ttc', 48)
+        global font36; font36 = ImageFont.truetype('/usr/share/fonts/truetype/wqy/wqy-microhei.ttc', 36)
+        global font24; font24 = ImageFont.truetype('/usr/share/fonts/truetype/wqy/wqy-microhei.ttc', 24)
+        global font18; font18 = ImageFont.truetype('/usr/share/fonts/truetype/wqy/wqy-microhei.ttc', 18)
+        global weather_icons; weather_icons = ImageFont.truetype('./fonts/meteocons-webfont.ttf', 30)
         #self.drawData()
 
     def drawData(self):
@@ -27,33 +49,38 @@ class ProjectDaily():
             epd.Clear(0xFF)
 
             print("Drawing")
-            W = epd7in5.EPD_WIDTH
-            H = epd7in5.EPD_HEIGHT
-            Limage = Image.new("1",( H,W ),255)
+            self.W = epd7in5.EPD_WIDTH
+            self.H = epd7in5.EPD_HEIGHT
+            Limage = Image.new("1",( self.H,self.W ),255)
             draw = ImageDraw.Draw(Limage)
-            font65 = ImageFont.truetype('/usr/share/fonts/truetype/wqy/wqy-microhei.ttc', 65)
-            font48 = ImageFont.truetype('/usr/share/fonts/truetype/wqy/wqy-microhei.ttc', 48)
-            font36 = ImageFont.truetype('/usr/share/fonts/truetype/wqy/wqy-microhei.ttc', 36)
-            font24 = ImageFont.truetype('/usr/share/fonts/truetype/wqy/wqy-microhei.ttc', 24)
-            font18 = ImageFont.truetype('/usr/share/fonts/truetype/wqy/wqy-microhei.ttc', 18)
+            
+            # weatherData = 
             todayWeatherData = self.weatherData.dailyWeather[0]
             ts = int(todayWeatherData.TimeStamp)
             weekDay = datetime.date.fromtimestamp(ts).strftime('%A')
             date = datetime.date.fromtimestamp(ts).strftime('%m/%d/%Y')
+            todayIconAsText = todayWeatherData.Icon
+            todayIconString = self.iconDict[todayIconAsText]
+            todayHighLowWeather = todayWeatherData.HighTemp + " / " + todayWeatherData.LowTemp
 
-            w,h = draw.textsize(weekDay,font65)
-            weekDayCtr = ((H-w)/2,0)
-            draw.text(weekDayCtr,weekDay,font = font65,fill = 0)
-            
-            w,h = draw.textsize(date,font48)
-            dateCtr = (((H-w)/2,75))
-            draw.text(dateCtr,date,font = font48,fill = 0)
+
+            self.drawCenteredText(draw,weekDay,font65,0)
+            self.drawCenteredText(draw,date,font48,75)
+            self.drawCenteredText(draw,todayIconString,weather_icons,140)
+            self.drawCenteredText(draw,todayHighLowWeather,font24,175)
+
+
             epd.display(epd.getbuffer(Limage))
             time.sleep(2)
             epd.sleep()
         except:
             print('traceback.format_exc():\n%s' % traceback.format_exc())
             exit()
+
+    def drawCenteredText(self,draw,value,font,height):
+        w,h = draw.textsize(value,font = font)
+        weatherCtr = (((self.H-w)/2,height))
+        draw.text(weatherCtr,value,font = font,fill = 0)
 
 if __name__ == "__main__":
     projDaily = ProjectDaily()
