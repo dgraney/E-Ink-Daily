@@ -38,7 +38,7 @@ class ProjectDaily():
         global font36; font36 = ImageFont.truetype('/usr/share/fonts/truetype/wqy/wqy-microhei.ttc', 36)
         global font24; font24 = ImageFont.truetype('/usr/share/fonts/truetype/wqy/wqy-microhei.ttc', 24)
         global font18; font18 = ImageFont.truetype('/usr/share/fonts/truetype/wqy/wqy-microhei.ttc', 18)
-        global weather_icons; weather_icons = ImageFont.truetype('./fonts/meteocons-webfont.ttf', 30)
+        global weather_icons; weather_icons = ImageFont.truetype('./fonts/meteocons-webfont.ttf', 100)
         #self.drawData()
 
     def drawData(self):
@@ -66,8 +66,8 @@ class ProjectDaily():
 
             self.drawCenteredText(draw,weekDay,font65,0)
             self.drawCenteredText(draw,date,font48,75)
-            self.drawCenteredText(draw,todayIconString,weather_icons,140)
-            self.drawCenteredText(draw,todayHighLowWeather,font24,175)
+            self.drawCenteredText(draw,todayIconString,weather_icons,110)
+            self.drawCenteredText(draw,todayHighLowWeather,font24,200)
 
             epd.display(epd.getbuffer(Limage))
             time.sleep(2)
