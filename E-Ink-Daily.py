@@ -18,7 +18,10 @@ class ProjectDaily():
     def __init__ (self):
         self.dailyBibleVerse = dailyVerse.getDailyVerse()
         self.weatherData = weather.main()
-        self.calendarEvents = calendar.main()
+        try:
+            self.calendarEvents = calendar.main()
+        except:
+            self.calendarEvents = None
         
         self.iconDict = {
             "clear-day": "B",
@@ -79,25 +82,26 @@ class ProjectDaily():
             draw.rectangle((2,275,self.H-2,330),fill=0)
             self.drawCenteredText(draw,"Upcoming Events",font36,280,_fill=255)
             
-            eventValue = self.parseCalendarEvent(self.calendarEvents[0])
-            draw.text((2,339),eventValue,font=font20)
-            draw.line((2,370,self.H-2,370),fill=0,width=3)
-            
-            eventValue = self.parseCalendarEvent(self.calendarEvents[1])
-            draw.text((2,379),eventValue,font=font20)
-            draw.line((2,410,self.H-2,410),fill=0,width=3)
-            
-            eventValue = self.parseCalendarEvent(self.calendarEvents[2])
-            draw.text((2,419),eventValue,font=font20)
-            draw.line((2,450,self.H-2,450),fill=0,width=3)
-            
-            eventValue = self.parseCalendarEvent(self.calendarEvents[3])
-            draw.text((2,459),eventValue,font=font20)
-            draw.line((2,490,self.H-2,490),fill=0,width=3)
-            
-            eventValue = self.parseCalendarEvent(self.calendarEvents[4])
-            draw.text((2,499),eventValue,font=font20)
-            draw.line((2,530,self.H-2,530),fill=0,width=3)
+            if not self.calendarEvents == None:
+                eventValue = self.parseCalendarEvent(self.calendarEvents[0])
+                draw.text((2,339),eventValue,font=font20)
+                draw.line((2,370,self.H-2,370),fill=0,width=3)
+                
+                eventValue = self.parseCalendarEvent(self.calendarEvents[1])
+                draw.text((2,379),eventValue,font=font20)
+                draw.line((2,410,self.H-2,410),fill=0,width=3)
+                
+                eventValue = self.parseCalendarEvent(self.calendarEvents[2])
+                draw.text((2,419),eventValue,font=font20)
+                draw.line((2,450,self.H-2,450),fill=0,width=3)
+                
+                eventValue = self.parseCalendarEvent(self.calendarEvents[3])
+                draw.text((2,459),eventValue,font=font20)
+                draw.line((2,490,self.H-2,490),fill=0,width=3)
+                
+                eventValue = self.parseCalendarEvent(self.calendarEvents[4])
+                draw.text((2,499),eventValue,font=font20)
+                draw.line((2,530,self.H-2,530),fill=0,width=3)
             
             # daily verse
             verseData = self.dailyBibleVerse
