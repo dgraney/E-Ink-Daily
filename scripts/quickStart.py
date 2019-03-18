@@ -49,7 +49,7 @@ def main():
         start = event['start'].get('dateTime', event['start'].get('date'))
         eventsList.append((start,event['summary']))
         print(start, event['summary'])
-    return eventsList
+    return events
 
 if __name__ == '__main__':
     main()

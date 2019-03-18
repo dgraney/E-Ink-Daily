@@ -2,6 +2,7 @@ import os
 import requests
 import datetime
 import json
+import numpy as np
 
 class WeatherData():
     dailyWeather = []
@@ -39,8 +40,8 @@ def extractWeatherData(data):
     weatherData = WeatherData()
     for dayData in dailyData:
         dailyWeatherData = DailyWeatherData()
-        dailyWeatherData.LowTemp = dayData['temperatureLow']
-        dailyWeatherData.HighTemp = dayData['temperatureHigh']
+        dailyWeatherData.LowTemp = np.round(dayData['temperatureLow'],0)
+        dailyWeatherData.HighTemp = np.round(dayData['temperatureHigh'],0)
         dailyWeatherData.Description = dayData['summary']
         dailyWeatherData.Icon = dayData['icon']
         dailyWeatherData.TimeStamp = dayData['time']
