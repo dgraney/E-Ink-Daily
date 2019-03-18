@@ -64,7 +64,7 @@ class ProjectDaily():
             """bmp = Image.open("Hershey.bmp")
             epd.display(epd.getbuffer(bmp))"""
             
-            # weatherData = 
+            # weatherData 
             todayWeatherData = self.weatherData.dailyWeather[0]
             ts = int(todayWeatherData.TimeStamp)
             weekDay = datetime.date.fromtimestamp(ts).strftime('%A')
@@ -76,8 +76,8 @@ class ProjectDaily():
 
             self.drawCenteredText(draw,weekDay,font65,0)
             self.drawCenteredText(draw,date,font48,75)
-            self.drawCenteredText(draw,todayIconString,weather_icons,135)
-            self.drawCenteredText(draw,todayHighLowWeather,font24,245)
+            self.drawOffsetText(draw,todayIconString,weather_icons,135,offset_frac=0.25)
+            self.drawOffsetText(draw,todayHighLowWeather,font24,245,offset_frac=0.25)
             
             draw.rectangle((2,275,self.H-2,330),fill=0)
             self.drawCenteredText(draw,"Upcoming Events",font36,280,_fill=255)
@@ -131,6 +131,11 @@ class ProjectDaily():
         weatherCtr = (((self.H-w)/2,height))
         draw.text(weatherCtr,value,font = font,fill = _fill)
     
+    def drawOffsetText(self,draw,value,font,height,_fill=0,offset_frac):
+        w,h = draw.textsize(value,font = font)
+        weatherCtr = (((self.H-w)*offset_frac,height))
+        draw.text(weatherCtr,value,font = font,fill = _fill)
+
     def parseCalendarEvent(self,event):
         start = event['start'].get('dateTime', event['start'].get('date'))
         startDateTime = datetime.datetime.strptime(start[:-6], '%Y-%m-%dT%H:%M:%S')
