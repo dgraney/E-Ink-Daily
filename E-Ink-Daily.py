@@ -3,6 +3,7 @@ sys.path.insert(0, './scripts')
 sys.path.insert(0, './epaper')
 sys.path.insert(0,'./fonts')
 import quickStart as calendar
+import todoist
 import dailyVerse as dailyVerse
 import weather as weather
 from threading import Timer
@@ -18,10 +19,12 @@ class ProjectDaily():
     def __init__ (self):
         self.dailyBibleVerse = dailyVerse.getDailyVerse()
         self.weatherData = weather.main()
+        self.tasks = todoist.main()
+        """
         try:
             self.calendarEvents = calendar.main()
         except:
-            self.calendarEvents = None
+            self.calendarEvents = None"""
         
         self.iconDict = {
             "clear-day": "B",
@@ -82,26 +85,25 @@ class ProjectDaily():
             draw.rectangle((2,275,self.H-2,330),fill=0)
             self.drawCenteredText(draw,"Upcoming Events",font36,280,_fill=255)
             
-            if not self.calendarEvents == None:
-                eventValue = self.parseCalendarEvent(self.calendarEvents[0])
-                draw.text((2,339),eventValue,font=font20)
-                draw.line((2,370,self.H-2,370),fill=0,width=3)
-                
-                eventValue = self.parseCalendarEvent(self.calendarEvents[1])
-                draw.text((2,379),eventValue,font=font20)
-                draw.line((2,410,self.H-2,410),fill=0,width=3)
-                
-                eventValue = self.parseCalendarEvent(self.calendarEvents[2])
-                draw.text((2,419),eventValue,font=font20)
-                draw.line((2,450,self.H-2,450),fill=0,width=3)
-                
-                eventValue = self.parseCalendarEvent(self.calendarEvents[3])
-                draw.text((2,459),eventValue,font=font20)
-                draw.line((2,490,self.H-2,490),fill=0,width=3)
-                
-                eventValue = self.parseCalendarEvent(self.calendarEvents[4])
-                draw.text((2,499),eventValue,font=font20)
-                draw.line((2,530,self.H-2,530),fill=0,width=3)
+            eventValue = self.parseTask(self.tasks[0])
+            draw.text((2,339),eventValue,font=font20)
+            draw.line((2,370,self.H-2,370),fill=0,width=3)
+            
+            eventValue = self.parseTask(self.tasks[1])
+            draw.text((2,379),eventValue,font=font20)
+            draw.line((2,410,self.H-2,410),fill=0,width=3)
+            
+            eventValue = self.parseTask(self.tasks[2])
+            draw.text((2,419),eventValue,font=font20)
+            draw.line((2,450,self.H-2,450),fill=0,width=3)
+            
+            eventValue = self.parseTask(self.tasks[3])
+            draw.text((2,459),eventValue,font=font20)
+            draw.line((2,490,self.H-2,490),fill=0,width=3)
+            
+            eventValue = self.parseTask(self.tasks[4])
+            draw.text((2,499),eventValue,font=font20)
+            draw.line((2,530,self.H-2,530),fill=0,width=3)
             
             # daily verse
             verseData = self.dailyBibleVerse
@@ -142,6 +144,12 @@ class ProjectDaily():
         startString = startDateTime.strftime('%a %m/%d %I:%M %p')
         summary = event['summary']
         return "%s %s" % (startString, summary[:20])
+    
+    def parseTask(self,task):
+        try:
+            return "%s %s" % (task.dateTimeString,content[:20])
+        except:
+            return ""
 
 if __name__ == "__main__":
     def runCode():
