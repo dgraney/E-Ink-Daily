@@ -133,7 +133,7 @@ class ProjectDaily():
         weatherCtr = (((self.H-w)/2,height))
         draw.text(weatherCtr,value,font = font,fill = _fill)
     
-    def drawOffsetText(self,draw,value,font,height,_fill=0,offset_frac):
+    def drawOffsetText(self,draw,value,font,height,_fill=0,offset_frac=1.0):
         w,h = draw.textsize(value,font = font)
         weatherCtr = (((self.H-w)*offset_frac,height))
         draw.text(weatherCtr,value,font = font,fill = _fill)
