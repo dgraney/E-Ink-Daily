@@ -9,6 +9,7 @@ def main():
     apiKey = getTodoistKey()
     tasks = getAllActiveTasks(apiKey)
     parsed = parseTasks(tasks)
+    return parsed
 
 def getTodoistKey():
     with open('todoist.key') as keyFile:
@@ -16,20 +17,28 @@ def getTodoistKey():
     return key
 
 def getProjects(key):
-    response = requests.get("https://beta.todoist.com/API/v8/projects", headers={"Authorization": "Bearer %s" % key}).json()
+    print("Getting Projects")
+    response = requests.get("https://beta.todoist.com/API/v8/projects", headers={"Authorization": "Bearer %s" % key},timeout=1).json()
+    print(response)
     return response
 
 def getAllActiveTasks(key):
     # get all projects
     tasks = []
     projects  = getProjects(key)
+    
+    print("Getting Active Tasks")
     for project in projects:
         projectID = project['id']
         _tasks = requests.get("https://beta.todoist.com/API/v8/tasks", 
             params={"project_id":projectID},
-            headers={"Authorization": "Bearer %s" % key}
+            headers={"Authorization": "Bearer %s" % key},
+            timeout=1.5
             ).json()
         tasks = tasks + _tasks
+
+    tasks.sort(key=lambda x: x['due']['date'], reverse=False)
+    print(tasks)
 
     return tasks
 

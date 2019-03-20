@@ -2,7 +2,7 @@ import sys
 sys.path.insert(0, './scripts')
 sys.path.insert(0, './epaper')
 sys.path.insert(0,'./fonts')
-import quickStart as calendar
+#import quickStart as calendar
 import todoist
 import dailyVerse as dailyVerse
 import weather as weather
@@ -41,15 +41,17 @@ class ProjectDaily():
             "hail": "X",
         }
 
-        
-        global font65; font65= ImageFont.truetype('/usr/share/fonts/truetype/wqy/wqy-microhei.ttc', 65)
-        global font48; font48 = ImageFont.truetype('/usr/share/fonts/truetype/wqy/wqy-microhei.ttc', 48)
-        global font36; font36 = ImageFont.truetype('/usr/share/fonts/truetype/wqy/wqy-microhei.ttc', 36)
-        global font24; font24 = ImageFont.truetype('/usr/share/fonts/truetype/wqy/wqy-microhei.ttc', 24)
-        global font20; font20 = ImageFont.truetype('/usr/share/fonts/truetype/wqy/wqy-microhei.ttc', 20)
-        global font18; font18 = ImageFont.truetype('/usr/share/fonts/truetype/wqy/wqy-microhei.ttc', 18)
-        global font16; font16 = ImageFont.truetype('/usr/share/fonts/truetype/wqy/wqy-microhei.ttc', 16)
-        global weather_icons; weather_icons = ImageFont.truetype('./fonts/meteocons-webfont.ttf', 100)
+        mainfontname = './fonts/wqy-microhei.ttc'
+        global font65; font65= ImageFont.truetype(mainfontname, 65)
+        global font48; font48 = ImageFont.truetype(mainfontname, 48)
+        global font36; font36 = ImageFont.truetype(mainfontname, 36)
+        global font24; font24 = ImageFont.truetype(mainfontname, 24)
+        global font20; font20 = ImageFont.truetype(mainfontname, 20)
+        global font18; font18 = ImageFont.truetype(mainfontname, 18)
+        global font16; font16 = ImageFont.truetype(mainfontname, 16)
+        global verseTitleFont; verseTitleFont = ImageFont.truetype('./fonts/Roboto-BoldCondensed.ttf', 20)
+        global verseFont; verseFont = ImageFont.truetype('./fonts/Roboto-Regular.ttf', 18)
+        global weather_icons; weather_icons = ImageFont.truetype('./fonts/meteocons-webfont.ttf', 90)
         #self.drawData()
 
     def drawData(self):
@@ -67,7 +69,8 @@ class ProjectDaily():
             """bmp = Image.open("Hershey.bmp")
             epd.display(epd.getbuffer(bmp))"""
             
-            # weatherData 
+            # weatherData
+            # today
             todayWeatherData = self.weatherData.dailyWeather[0]
             ts = int(todayWeatherData.TimeStamp)
             weekDay = datetime.date.fromtimestamp(ts).strftime('%A')
@@ -79,8 +82,29 @@ class ProjectDaily():
 
             self.drawCenteredText(draw,weekDay,font65,0)
             self.drawCenteredText(draw,date,font48,75)
-            self.drawOffsetText(draw,todayIconString,weather_icons,135,offset_frac=0.25)
-            self.drawOffsetText(draw,todayHighLowWeather,font24,245,offset_frac=0.25)
+            
+            offset1 = 0.172
+            offset2 = 0.21
+            offset3 = 0.0775
+            
+            self.drawOffsetText(draw,todayIconString,weather_icons,130,offset_frac=offset1)
+            self.drawOffsetText(draw,"Today",font18,222,offset_frac=offset2)
+            self.drawOffsetText(draw,todayHighLowWeather,font24,245,offset_frac=offset3)
+            
+            draw.line((self.H/2 - 1,130,self.H/2 - 1,270),fill=0,width=2)
+            
+            # tomorrow
+            tomorrowWeatherData = self.weatherData.dailyWeather[1]
+            ts = int(tomorrowWeatherData.TimeStamp)
+            weekDay = datetime.date.fromtimestamp(ts).strftime('%A')
+            date = datetime.date.fromtimestamp(ts).strftime('%m/%d/%Y')
+            tomorrowIconAsText = tomorrowWeatherData.Icon
+            tomorrowIconString = self.iconDict[tomorrowIconAsText]
+            tomorrowHighLowWeather = "H " + str(tomorrowWeatherData.HighTemp) + " | L " + str(tomorrowWeatherData.LowTemp)
+
+            self.drawOffsetText(draw,tomorrowIconString,weather_icons,130,offset_frac=1-offset1)
+            self.drawOffsetText(draw,"Tomorrow",font18,222,offset_frac=1-offset2+0.015)
+            self.drawOffsetText(draw,tomorrowHighLowWeather,font24,245,offset_frac=1-offset3)
             
             draw.rectangle((2,275,self.H-2,330),fill=0)
             self.drawCenteredText(draw,"Upcoming Events",font36,280,_fill=255)
@@ -108,15 +132,15 @@ class ProjectDaily():
             # daily verse
             verseData = self.dailyBibleVerse
             reference = verseData['reference']
-            w,h = font18.getsize(reference)
-            draw.text(((self.H-w)/2,542),reference,font=font18)
+            w,h = verseTitleFont.getsize(reference)
+            draw.text(((self.H-w)/2,535),reference,font=verseTitleFont)
             text = verseData['text']
             text = text.replace('\n','')
-            lines = textwrap.wrap('"%s"'%text, width=50)
-            y_text = 565
+            lines = textwrap.wrap('"%s"'%text, width=45)
+            y_text = 559
             for line in lines:
-                width, height = font16.getsize(line)
-                draw.text(((self.H - width) / 2, y_text), line, font=font16)
+                width, height = verseFont.getsize(line)
+                draw.text(((self.H - width) / 2, y_text), line, font=verseFont)
                 y_text += height
             
             
@@ -143,11 +167,11 @@ class ProjectDaily():
         startDateTime = datetime.datetime.strptime(start[:-6], '%Y-%m-%dT%H:%M:%S')
         startString = startDateTime.strftime('%a %m/%d %I:%M %p')
         summary = event['summary']
-        return "%s %s" % (startString, summary[:20])
+        return "%s   %s" % (startString, summary[:20])
     
     def parseTask(self,task):
         try:
-            return "%s %s" % (task.dateTimeString,content[:20])
+            return "%s  %s" % (task.dateTimeString,task.content[:20])
         except:
             return ""
 
