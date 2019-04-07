@@ -37,7 +37,7 @@ def getAllActiveTasks(key):
             ).json()
         tasks = tasks + _tasks
 
-    tasks.sort(key=lambda x: x['due']['date'], reverse=False)
+    tasks.sort(key=lambda x: x['due']['date'], reverse=True)
     print(tasks)
 
     return tasks

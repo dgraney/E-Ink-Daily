@@ -58,9 +58,9 @@ def main():
     for daily in weatherData.dailyWeather:
         ts = int(daily.TimeStamp)
         weekDay = datetime.date.fromtimestamp(ts).strftime('%a')
-        print(weekDay)
-        print("    Daily Description: %s" % daily.Description)
-        print("    Daily High/Low: %s/%s" % (daily.HighTemp,daily.LowTemp))
+        #print(weekDay)
+        #print("    Daily Description: %s" % daily.Description)
+        #print("    Daily High/Low: %s/%s" % (daily.HighTemp,daily.LowTemp))
     return weatherData
 
 if __name__ == "__main__":
